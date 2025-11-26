@@ -1,4 +1,4 @@
-** Mobile App Privacy Policy Example ** 
+## Mobile App Privacy Policy Example ##
 Last Updated: November 26, 2025
 
 This Privacy Policy describes how Triumvirate Labs LLC handles information for users of out mobile applications.
@@ -23,10 +23,7 @@ Handling of Payment Information: All purchases are processed directly by the res
 
 Purchase Validation: To deliver the content or features you purchased, the App communicates with the platform provider (Apple or Google) to verify the transaction. This communication is handled securely by the operating system and is only used to confirm the status of your purchase and restore it if needed.
 
-3. Children's Privacy (COPPA Compliance)
-Because the App does not collect any personal information, it inherently adheres to the guidelines of the U.S. Children's Online Privacy Protection Act (COPPA). We do not knowingly collect personal information from anyone, including children under the age of 13.
-
-4. Changes to This Privacy Policy
+3. Changes to This Privacy Policy
 We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy within the App or on this page. You are advised to review this Privacy Policy periodically for any changes.
 
 5. Contact Us
