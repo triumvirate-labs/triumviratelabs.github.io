@@ -22,3 +22,7 @@ Triumvirate Labs specializes in the full lifecycle of mobile app development:
 
 ### **Contact Information**
 * **Email:** info@triumvirate-labs.com
+
+### **Privacy Policy**
+[Privacy Policy](privacy-policy.md)
+
