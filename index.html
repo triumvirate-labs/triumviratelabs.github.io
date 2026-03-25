@@ -3,181 +3,842 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Triumvirate Labs</title>
+  <title>Triumvirate Labs - Mobile Apps That Bring People Together</title>
+  <meta name="description" content="Triumvirate Labs builds fun, engaging mobile apps for iOS and Android. Makers of Truth or Dare: Game Night.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   <style>
-    * {
+    *, *::before, *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    :root {
+      --purple: #6366f1;
+      --purple-dark: #4f46e5;
+      --pink: #a78bfa;
+      --orange: #38bdf8;
+      --blue: #00d4ff;
+      --cyan: #06b6d4;
+      --dark: #080c1a;
+      --dark-mid: #0f1629;
+      --gray: #7a8ba8;
+      --light: #f8fafc;
+      --white: #ffffff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
-      min-height: 100vh;
-      padding: 40px 20px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--dark);
+      background: var(--dark);
+      overflow-x: hidden;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      padding: 48px;
-    }
-
-    h2 {
-      font-size: 2rem;
-      color: #1a1a2e;
-      margin-bottom: 24px;
-      text-align: center;
-    }
-
-    h3 {
-      font-size: 1.25rem;
-      color: #2d3748;
-      margin: 32px 0 16px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid #e2e8f0;
-    }
-
-    hr {
-      border: none;
-      height: 1px;
-      background: linear-gradient(to right, transparent, #cbd5e0, transparent);
-      margin: 24px 0;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 16px 0;
-      border-radius: 8px;
+    /* ── Animated Background ── */
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      pointer-events: none;
     }
 
-    th, td {
-      padding: 14px 18px;
-      text-align: left;
+    .bg-glow .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.2;
+      animation: float 20s ease-in-out infinite;
     }
 
-    th {
-      background: #1a1a2e;
-      color: #fff;
-      font-weight: 600;
-      text-transform: uppercase;
+    .bg-glow .orb:nth-child(1) {
+      width: 600px; height: 600px;
+      background: var(--purple);
+      top: -10%; left: -10%;
+      animation-delay: 0s;
+    }
+
+    .bg-glow .orb:nth-child(2) {
+      width: 500px; height: 500px;
+      background: var(--pink);
+      top: 40%; right: -15%;
+      animation-delay: -7s;
+    }
+
+    .bg-glow .orb:nth-child(3) {
+      width: 400px; height: 400px;
+      background: var(--cyan);
+      bottom: -5%; left: 30%;
+      animation-delay: -14s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(20px);
+      background: rgba(10, 14, 26, 0.8);
+      border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+      transition: background 0.3s;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.5));
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    /* ── Hero Section ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #a5b4fc;
+      padding: 8px 20px;
+      border-radius: 100px;
       font-size: 0.85rem;
-      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s ease-out;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
     }
 
-    td {
-      background: #fff;
-      border-bottom: 1px solid #e2e8f0;
+    .hero h1 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: var(--white);
+      max-width: 800px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.8s ease-out 0.1s both;
     }
 
-    tr:last-child td {
-      border-bottom: none;
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--purple), var(--pink), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 24px rgba(129, 140, 248, 0.4));
     }
 
-    tr:hover td {
-      background: #f7fafc;
+    .hero-sub {
+      font-size: 1.2rem;
+      color: var(--gray);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+      animation: fadeUp 0.8s ease-out 0.2s both;
     }
 
-    p {
-      color: #4a5568;
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.8s ease-out 0.3s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: var(--white);
+      box-shadow: 0 4px 24px rgba(99, 102, 241, 0.4), 0 0 40px rgba(129, 140, 248, 0.15);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.55), 0 0 60px rgba(129, 140, 248, 0.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--white);
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.08);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 212, 255, 0.08);
+      border-color: rgba(0, 212, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+    }
+
+    /* ── Sections ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 24px;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--purple);
       margin-bottom: 16px;
     }
 
-    ul {
-      list-style: none;
-      margin: 12px 0;
+    .section-title {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -1px;
+      margin-bottom: 16px;
     }
 
-    li {
-      padding: 10px 16px;
-      background: #f7fafc;
-      border-left: 4px solid #0a7ea4;
-      margin-bottom: 8px;
-      border-radius: 0 8px 8px 0;
-      transition: all 0.2s ease;
+    .section-desc {
+      font-size: 1.1rem;
+      color: var(--gray);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 56px;
     }
 
-    li:hover {
-      background: #edf2f7;
-      transform: translateX(4px);
+    /* ── App Showcase Card ── */
+    .app-card {
+      background: linear-gradient(145deg, rgba(18, 24, 41, 0.9), rgba(10, 14, 26, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 40px;
+      align-items: center;
+      transition: border-color 0.3s;
+      position: relative;
+      overflow: hidden;
     }
 
-    a {
-      color: #0a7ea4;
-      text-decoration: none;
+    .app-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(129, 140, 248, 0.06));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .app-card:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.1);
+    }
+
+    .app-card:hover::before {
+      opacity: 1;
+    }
+
+    .app-icon-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-icon {
+      width: 140px;
+      height: 140px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, var(--purple), var(--pink), var(--orange));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4), 0 0 60px rgba(129, 140, 248, 0.2);
+      animation: iconPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes iconPulse {
+      0%, 100% { box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4), 0 0 60px rgba(129, 140, 248, 0.2); }
+      50% { box-shadow: 0 12px 48px rgba(129, 140, 248, 0.5), 0 0 80px rgba(99, 102, 241, 0.3); }
+    }
+
+    .app-details {
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .app-tagline {
+      font-size: 1rem;
+      color: var(--pink);
       font-weight: 500;
-      transition: color 0.2s ease;
+      margin-bottom: 16px;
+      text-shadow: 0 0 16px rgba(129, 140, 248, 0.3);
     }
 
-    a:hover {
-      color: #065a75;
-      text-decoration: underline;
+    .app-description {
+      color: var(--gray);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      max-width: 480px;
     }
 
-    strong {
-      color: #2d3748;
+    .app-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.8);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .store-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--white);
+      color: var(--dark);
+      padding: 14px 28px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 20px rgba(99, 102, 241, 0.1);
+    }
+
+    .store-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 32px rgba(99, 102, 241, 0.2);
+    }
+
+    .store-link.android-soon {
+      background: transparent;
+      color: var(--gray);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: none;
+      cursor: default;
+      opacity: 0.7;
+    }
+
+    .store-link.android-soon:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: rgba(0, 212, 255, 0.25);
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .store-link svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* ── Hosts Grid ── */
+    .hosts-section {
+      margin-top: 64px;
+    }
+
+    .hosts-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .hosts-subtitle {
+      color: var(--gray);
+      margin-bottom: 32px;
+      font-size: 0.95rem;
+    }
+
+    .hosts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .host-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 20px 16px;
+      text-align: center;
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+
+    .host-chip:hover {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: rgba(99, 102, 241, 0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.12);
+    }
+
+    .host-emoji {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .host-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+
+    .host-desc {
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+
+    /* ── About / Values ── */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .value-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: 36px;
+      transition: all 0.25s ease;
+    }
+
+    .value-card:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 0 24px rgba(99, 102, 241, 0.1);
+    }
+
+    .value-icon {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .value-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .value-text {
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(99, 102, 241, 0.12);
+      padding: 48px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    .footer-copy {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav {
+        padding: 16px 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 100px 20px 60px;
+      }
+
+      .hero h1 {
+        letter-spacing: -1px;
+      }
+
+      .app-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 32px 24px;
+      }
+
+      .app-icon-wrapper {
+        display: flex;
+        justify-content: center;
+      }
+
+      .app-icon {
+        width: 100px;
+        height: 100px;
+        border-radius: 24px;
+        font-size: 3rem;
+      }
+
+      .app-description {
+        max-width: 100%;
+      }
+
+      .app-badges {
+        justify-content: center;
+      }
+
+      .store-link {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .hosts-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-left {
+        align-items: center;
+      }
+
+      .footer-links {
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>🏢 Triumvirate Labs Company Information</h2>
 
-    <hr>
-
-    <h3>Overview</h3>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Field</th>
-          <th>Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Company Name</strong></td>
-          <td>Triumvirate Labs</td>
-        </tr>
-        <tr>
-          <td><strong>Focus</strong></td>
-          <td>Mobile Application Development</td>
-        </tr>
-        <tr>
-          <td><strong>Platforms</strong></td>
-          <td><strong>iOS</strong> (Apple) and <strong>Android</strong> (Google)</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <hr>
-
-    <h3>Current Apps</h3>
-
-    <p>Triumvirate Labs specializes in the full lifecycle of mobile app development:</p>
-
-    <ul>
-      <li><strong>Truth or Dare:</strong></li>
-    </ul>
-
-    <hr>
-
-    <h3>Contact Information</h3>
-    <ul>
-      <li><strong>Email:</strong> info@triumvirate-labs.com</li>
-    </ul>
-
-    <h3>Privacy Policy</h3>
-    <p><a href="privacy-policy.md">Privacy Policy</a></p>
+  <!-- Animated background orbs -->
+  <div class="bg-glow">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
   </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">
+      <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 9H21L19.5 3H4.5L3 9Z" stroke="url(#neon-grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="rgba(178,75,255,0.15)"/>
+        <path d="M3 9V20C3 20.55 3.45 21 4 21H20C20.55 21 21 20.55 21 20V9" stroke="url(#neon-grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 21V14H15V21" stroke="url(#neon-grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="neon-grad" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#6366f1"/>
+            <stop offset="1" stop-color="#38bdf8"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      Triumvirate Labs
+    </div>
+    <ul class="nav-links">
+      <li><a href="#apps">Apps</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span>&#9889;</span> Building apps people love
+    </div>
+    <h1>
+      Triumvirate <br><span class="gradient-text">Labs</span>
+    </h1>
+    <p class="hero-sub">
+      Triumvirate Labs crafts engaging mobile experiences for iOS and Android that bring people together and create unforgettable moments.
+    </p>
+    <div class="hero-cta">
+      <a href="#apps" class="btn btn-primary">See Our Apps</a>
+      <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+    </div>
+  </section>
+
+  <!-- Apps Section -->
+  <section id="apps">
+    <div class="section-inner">
+      <span class="section-label">Our Apps</span>
+      <h2 class="section-title">Made for Game Night</h2>
+      <p class="section-desc">
+        From wild dares to deep philosophical questions, our apps turn any gathering into the party of the year.
+      </p>
+
+      <div class="app-card fade-in">
+        <div class="app-icon-wrapper">
+          <div class="app-icon"><img src="store-icon.png" alt="Truth or Dare: Game Night" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></div>
+        </div>
+        <div class="app-details">
+          <h3 class="app-name">Truth or Dare: Game Night</h3>
+          <p class="app-tagline">Endless fun with Friends</p>
+          <p class="app-description">
+            The ultimate party game with unique hosts, each bringing their own personality &mdash; from the philosophical <strong style="color:#a5b4fc">Socrates</strong> to the spooky <strong style="color:#a5b4fc">Trick or Treat</strong>. Choose your vibe and let the fun begin.
+          </p>
+          <div class="app-badges">
+            <span class="badge">&#127822; iOS</span>
+            <span class="badge">&#11088; 5.0 Rating</span>
+            <span class="badge">&#127918; Board Game</span>
+            <span class="badge">&#128274; No Data Collected</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <a href="https://apps.apple.com/us/app/truth-or-dare-game-night/id6752220157" target="_blank" rel="noopener" class="store-link">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              Download on the App Store
+            </a>
+            <span class="store-link android-soon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2.236l1.644-2.873a.413.413 0 00-.147-.553.413.413 0 00-.553.147L16.78 1.903C15.592 1.327 14.292 1 12.91 1c-1.38 0-2.681.327-3.87.903L7.352-.044a.413.413 0 00-.553-.147.413.413 0 00-.147.553L8.296 2.24C5.757 3.64 4.028 6.267 3.86 9.32h18.1c-.168-3.053-1.897-5.68-4.437-7.084zM8.678 6.5a.844.844 0 110-1.688.844.844 0 010 1.688zm6.464 0a.844.844 0 110-1.688.844.844 0 010 1.688zM3.82 10.57v7.025c0 .96.778 1.737 1.738 1.737h1.083v3.226c0 .796.645 1.442 1.441 1.442s1.442-.646 1.442-1.442v-3.226h2.792v3.226c0 .796.646 1.442 1.442 1.442s1.442-.646 1.442-1.442v-3.226h1.083c.96 0 1.738-.778 1.738-1.737V10.57H3.82zm-2.379 0c-.796 0-1.441.646-1.441 1.442v5.37c0 .796.645 1.441 1.441 1.441S2.883 18.177 2.883 17.38v-5.37c0-.796-.646-1.441-1.442-1.441zm20.938 0c-.796 0-1.441.646-1.441 1.442v5.37c0 .796.645 1.441 1.441 1.441s1.442-.646 1.442-1.441v-5.37c0-.796-.646-1.441-1.442-1.441z"/></svg>
+              Android Coming Soon
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+  <!-- About Section -->
+  <section id="about">
+    <div class="section-inner">
+      <span class="section-label">About Us</span>
+      <h2 class="section-title">Why Triumvirate Labs?</h2>
+      <p class="section-desc">
+        We believe the best apps are the ones that make you put your phone down and connect with the people around you.
+      </p>
+      <div class="values-grid">
+        <div class="value-card fade-in">
+          <span class="value-icon">&#127919;</span>
+          <h4 class="value-title">Built for Fun</h4>
+          <p class="value-text">Every feature is designed to spark laughter, conversation, and real-life moments that people remember.</p>
+        </div>
+        <div class="value-card fade-in">
+          <span class="value-icon">&#128241;</span>
+          <h4 class="value-title">Cross-Platform</h4>
+          <p class="value-text">We develop for both iOS and Android so nobody gets left out of game night.</p>
+        </div>
+        <div class="value-card fade-in">
+          <span class="value-icon">&#128272;</span>
+          <h4 class="value-title">Privacy First</h4>
+          <p class="value-text">We don't collect your data. Period. Your game night stays between you and your friends.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="section-inner" style="text-align: center;">
+      <span class="section-label">Get In Touch</span>
+      <h2 class="section-title">Let's Chat</h2>
+      <p class="section-desc" style="margin: 0 auto 40px;">
+        Got feedback, ideas, or just want to say hi? We'd love to hear from you.
+      </p>
+      <a href="mailto:info@triumvirate-labs.com" class="btn btn-primary" style="font-size: 1.1rem; padding: 16px 40px;">
+        &#9993;&nbsp; info@triumvirate-labs.com
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">
+        <div class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9H21L19.5 3H4.5L3 9Z" stroke="url(#neon-grad-f)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="rgba(178,75,255,0.15)"/>
+            <path d="M3 9V20C3 20.55 3.45 21 4 21H20C20.55 21 21 20.55 21 20V9" stroke="url(#neon-grad-f)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 21V14H15V21" stroke="url(#neon-grad-f)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="neon-grad-f" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6366f1"/>
+                <stop offset="1" stop-color="#38bdf8"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          Triumvirate Labs
+        </div>
+        <p class="footer-copy">&copy; 2026 Triumvirate Labs LLC. All rights reserved.</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="mailto:info@triumvirate-labs.com">Contact</a></li>
+        <li><a href="https://apps.apple.com/us/app/truth-or-dare-game-night/id6752220157" target="_blank" rel="noopener">App Store</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
 </body>
 </html>
